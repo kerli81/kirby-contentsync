@@ -52,6 +52,12 @@ Kirby::plugin('zephir/contentsync', [
                     'longPrefix' => 'verbose',
                     'description' => 'Verbose output.',
                     'noValue' => true
+                ],
+                'noninteractive' => [
+                    'prefix' => 'n',
+                    'longPrefix' => 'noninteractive',
+                    'description' => 'Adopt changes automatically',
+                    'noValue' => true
                 ]
             ],
             'command' => function ($cli) : void {
@@ -59,6 +65,7 @@ Kirby::plugin('zephir/contentsync', [
                 Logger::setLogLevel($cli->arg('verbose') ? 'verbose' : 'info');
 
                 $syncProvider = new SyncProvider($cli);
+                $syncProvider->setNoninteractiveMode($cli->arg('noninteractive'));
                 $syncProvider->sync();
             }
         ]

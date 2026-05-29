@@ -16,11 +16,24 @@ class SyncProvider
     private $cli;
 
     /**
+     * to enable the non-interactive mode to automatically accept changes
+     * @var bool $noninteractive
+     */
+    private bool $noninteractive = false;
+
+    /**
      * @param CLI $cli
      */
     public function __construct(CLI $cli)
     {
         $this->cli = $cli;
+    }
+
+    /**
+     * @param bool $mode
+     */
+    public function setNoninteractiveMode(bool $mode) {
+        $this->noninteractive = $mode;
     }
 
     public function sync()
@@ -48,7 +61,12 @@ class SyncProvider
             Logger::br();
 
             if ($deleteCount || $createCount || $updateCount) {
-                Logger::getCli()->confirmToContinue('Do you want to continue?');
+                if ($this->noninteractive) {
+                    Logger::info('Changes will be automatically adopted');
+                }
+                else {
+                    Logger::getCli()->confirmToContinue('Do you want to continue?');
+                }
             }
 
             // Remove deleted files

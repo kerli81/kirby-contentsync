@@ -92,6 +92,10 @@ With verbose logging:
 
 `kirby content:sync -v`
 
+In non-interactive mode (accepts changes automatically):
+
+`kirby content:sync -n`
+
 ## 5. How does it work?
 
 The plugin creates 2 endpoints (routes):
